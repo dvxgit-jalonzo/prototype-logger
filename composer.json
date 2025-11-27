@@ -1,8 +1,9 @@
 {
   "version": "1.0.0",
   "name": "dvxgit-jalonzo/prototype-logger",
-  "description": "Lightweight logger with auto-folder creation.",
+  "description": "Lightweight and flexible Laravel logger with automatic folder management.",
   "type": "library",
+  "license": "MIT",
   "autoload": {
     "psr-4": {
       "Nrmnalonzo\\PrototypeLogger\\": "src/"
