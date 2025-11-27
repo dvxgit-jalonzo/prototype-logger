@@ -1,0 +1,14 @@
+{
+  "version": "1.0.0",
+  "name": "nrmnalonzo/prototype-logger",
+  "description": "Lightweight logger with auto-folder creation.",
+  "type": "library",
+  "autoload": {
+    "psr-4": {
+      "NrmnAlonzo\\PrototypeLogger\\": "src/"
+    }
+  },
+  "require": {
+    "php": ">=8.0"
+  }
+}
