@@ -1,5 +1,4 @@
 {
-  "version": "1.0.1",
   "name": "dvxgit-jalonzo/prototype-logger",
   "description": "Lightweight and flexible Laravel logger with automatic folder management.",
   "type": "library",
