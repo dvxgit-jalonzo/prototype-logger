@@ -1,14 +1,21 @@
 {
   "version": "1.0.0",
-  "name": "nrmnalonzo/prototype-logger",
+  "name": "dvxgit-jalonzo/prototype-logger",
   "description": "Lightweight logger with auto-folder creation.",
   "type": "library",
   "autoload": {
     "psr-4": {
-      "NrmnAlonzo\\PrototypeLogger\\": "src/"
+      "Nrmnalonzo\\PrototypeLogger\\": "src/"
     }
   },
   "require": {
     "php": ">=8.0"
+  },
+  "extra": {
+    "laravel": {
+      "providers": [
+        "Nrmnalonzo\\PrototypeLogger\\PrototypeLoggerServiceProvider"
+      ]
+    }
   }
 }
