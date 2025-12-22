@@ -1,5 +1,6 @@
 {
   "name": "dvxgit-jalonzo/prototype-logger",
+  "version": "1.0.0",
   "description": "Lightweight and flexible Laravel logger with automatic folder management.",
   "type": "library",
   "license": "MIT",

@@ -10,7 +10,7 @@ class PrototypeLoggerServiceProvider extends ServiceProvider
     {
         $this->publishes([
             __DIR__ . '/../config/prototype-logger.php' => config_path('prototype-logger.php'),
-        ], 'config');
+        ], 'prototype-logger');
     }
 
     public function register(): void

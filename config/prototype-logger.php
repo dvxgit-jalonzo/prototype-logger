@@ -1,7 +1,8 @@
 <?php
 
 return [
-    'log_dir' => __DIR__ . '/../logs', // or use storage_path if used in Laravel
-    'log_prefix' => 'custom',
+    'log_path' => storage_path('logs'),
+    'log_folder' => 'prototype-logger',
+    'log_prefix' => 'logger',
     'log_extension' => 'log',
 ];

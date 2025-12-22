@@ -4,32 +4,36 @@ namespace Nrmnalonzo\PrototypeLogger;
 
 class PrototypeLogger
 {
-    protected string $logDir;
+    protected string $logPath;
+    protected string $logFolder;
     protected string $logPrefix;
     protected string $logExtension;
 
-    protected static string $staticLogDir;
+    protected static string $staticLogPath;
+    protected static string $staticLogFolder;
     protected static string $staticLogPrefix;
     protected static string $staticLogExtension;
     protected static bool $staticConfigured = false;
 
-    public function __construct(?string $logDir = null, ?string $logPrefix = null, ?string $logExtension = null)
+    public function __construct(?string $logPath = null, ?string $logFolder = null, ?string $logPrefix = null, ?string $logExtension = null)
     {
         // Use config values if not provided
         $config = self::loadConfig();
 
-        $this->logDir = $logDir ?? $config['log_dir'];
+        $this->logPath = $logPath ?? $config['log_path'];
+        $this->logFolder = $logFolder ?? $config['log_folder'];
         $this->logPrefix = $logPrefix ?? $config['log_prefix'];
         $this->logExtension = $logExtension ?? $config['log_extension'];
 
         $this->ensureLogDirectoryExists();
     }
 
-    public static function configure(?string $logDir = null, ?string $logPrefix = null, ?string $logExtension = null): void
+    public static function configure(?string $logPath = null, ?string $logFolder = null, ?string $logPrefix = null, ?string $logExtension = null): void
     {
         $config = self::loadConfig();
 
-        self::$staticLogDir = $logDir ?? $config['log_dir'];
+        self::$staticLogPath = $logPath ?? $config['log_path'];
+        self::$staticLogFolder = $logFolder ?? $config['log_folder'];
         self::$staticLogPrefix = $logPrefix ?? $config['log_prefix'];
         self::$staticLogExtension = $logExtension ?? $config['log_extension'];
 
@@ -40,7 +44,9 @@ class PrototypeLogger
     protected function ensureLogDirectoryExists(): void
     {
         $subFolder = date('Ym');
-        $fullPath = rtrim($this->logDir, DIRECTORY_SEPARATOR) . DIRECTORY_SEPARATOR . $subFolder;
+        $fullPath = rtrim($this->logPath, DIRECTORY_SEPARATOR)
+            . DIRECTORY_SEPARATOR . $this->logFolder
+            . DIRECTORY_SEPARATOR . $subFolder;
 
         if (!is_dir($fullPath)) {
             if (!mkdir($fullPath, 0777, true) && !is_dir($fullPath)) {
@@ -48,13 +54,15 @@ class PrototypeLogger
             }
         }
 
-        $this->logDir = $fullPath;
+        $this->logPath = $fullPath;
     }
 
     protected static function ensureStaticLogDirectoryExists(): void
     {
         $subFolder = date('Ym');
-        $fullPath = rtrim(self::$staticLogDir, DIRECTORY_SEPARATOR) . DIRECTORY_SEPARATOR . $subFolder;
+        $fullPath = rtrim(self::$staticLogPath, DIRECTORY_SEPARATOR)
+            . DIRECTORY_SEPARATOR . self::$staticLogFolder
+            . DIRECTORY_SEPARATOR . $subFolder;
 
         if (!is_dir($fullPath)) {
             if (!mkdir($fullPath, 0777, true) && !is_dir($fullPath)) {
@@ -62,12 +70,12 @@ class PrototypeLogger
             }
         }
 
-        self::$staticLogDir = $fullPath;
+        self::$staticLogPath = $fullPath;
     }
 
     public function log(string $message, ?array $context = null): void
     {
-        self::writeLog($message, $context, $this->logDir, $this->logPrefix, $this->logExtension);
+        self::writeLog($message, $context, $this->logPath, $this->logPrefix, $this->logExtension);
     }
 
     public static function trail(string $message, ?array $context = null): void
@@ -76,14 +84,14 @@ class PrototypeLogger
             self::configure(); // Load default config
         }
 
-        self::writeLog($message, $context, self::$staticLogDir, self::$staticLogPrefix, self::$staticLogExtension);
+        self::writeLog($message, $context, self::$staticLogPath, self::$staticLogPrefix, self::$staticLogExtension);
     }
 
-    protected static function writeLog(string $message, ?array $context, string $logDir, string $logPrefix, string $logExtension): void
+    protected static function writeLog(string $message, ?array $context, string $logPath, string $logPrefix, string $logExtension): void
     {
         $datePrefix = date('Ymd');
         $fileName = $datePrefix . '_' . $logPrefix . '.' . $logExtension;
-        $filePath = $logDir . DIRECTORY_SEPARATOR . $fileName;
+        $filePath = $logPath . DIRECTORY_SEPARATOR . $fileName;
 
         $timestamp = date('Y-m-d H:i:s');
         $contextStr = $context ? ' ' . json_encode([$context], JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES) : '';
