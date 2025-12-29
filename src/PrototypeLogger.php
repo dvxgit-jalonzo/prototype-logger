@@ -106,12 +106,6 @@ class PrototypeLogger
      */
     protected static function loadConfig(): array
     {
-        $configPath = __DIR__ . '/../config/prototype-logger.php';
-
-        if (!file_exists($configPath)) {
-            throw new \RuntimeException("Config file not found: $configPath");
-        }
-
-        return include $configPath;
+        return config('prototype-logger');
     }
 }
