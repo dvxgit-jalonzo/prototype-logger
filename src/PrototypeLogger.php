@@ -20,10 +20,10 @@ class PrototypeLogger
         // Use config values if not provided
         $config = self::loadConfig();
 
-        $this->logPath = $logPath ?? $config['log_path'];
-        $this->logFolder = $logFolder ?? $config['log_folder'];
-        $this->logPrefix = $logPrefix ?? $config['log_prefix'];
-        $this->logExtension = $logExtension ?? $config['log_extension'];
+        $this->logPath = $logPath ?? $config['prototype_log_path'];
+        $this->logFolder = $logFolder ?? $config['prototype_log_folder'];
+        $this->logPrefix = $logPrefix ?? $config['prototype_log_prefix'];
+        $this->logExtension = $logExtension ?? $config['prototype_log_extension'];
 
         $this->ensureLogDirectoryExists();
     }
@@ -32,10 +32,10 @@ class PrototypeLogger
     {
         $config = self::loadConfig();
 
-        self::$staticLogPath = $logPath ?? $config['log_path'];
-        self::$staticLogFolder = $logFolder ?? $config['log_folder'];
-        self::$staticLogPrefix = $logPrefix ?? $config['log_prefix'];
-        self::$staticLogExtension = $logExtension ?? $config['log_extension'];
+        self::$staticLogPath = $logPath ?? $config['prototype_log_path'];
+        self::$staticLogFolder = $logFolder ?? $config['prototype_log_folder'];
+        self::$staticLogPrefix = $logPrefix ?? $config['prototype_log_prefix'];
+        self::$staticLogExtension = $logExtension ?? $config['prototype_log_extension'];
 
         self::ensureStaticLogDirectoryExists();
         self::$staticConfigured = true;
