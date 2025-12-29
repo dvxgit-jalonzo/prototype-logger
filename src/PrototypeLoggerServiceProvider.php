@@ -13,23 +13,29 @@ class PrototypeLoggerServiceProvider extends ServiceProvider
         ], 'prototype-logger');
 
         $envPath = base_path('.env');
+
         $defaults = [
-            'PROTOTYPE_LOG_PATH=' . storage_path('logs'),
-            'PROTOTYPE_LOG_FOLDER=prototype-logger',
-            'PROTOTYPE_LOG_PREFIX=logger',
-            'PROTOTYPE_LOG_EXTENSION=log',
+            'PROTOTYPE_LOG_PATH="' . str_replace('\\', '/', storage_path('logs')) . '"',
+            'PROTOTYPE_LOG_FOLDER="prototype-logger"',
+            'PROTOTYPE_LOG_PREFIX="logger"',
+            'PROTOTYPE_LOG_EXTENSION="log"',
         ];
+
 
         if (file_exists($envPath)) {
             $envContent = file_get_contents($envPath);
 
             foreach ($defaults as $line) {
-                $key = explode('=', $line)[0];
+                [$key, $value] = explode('=', $line, 2);
 
-                if (!str_contains($envContent, $key . '=')) {
-                    file_put_contents($envPath, PHP_EOL . $line, FILE_APPEND);
+                if (preg_match("/^{$key}=.*/m", $envContent)) {
+                    $envContent = preg_replace("/^{$key}=.*/m", $line, $envContent);
+                } else {
+                    $envContent .= PHP_EOL . $line;
                 }
             }
+
+            file_put_contents($envPath, $envContent);
         }
     }
 
