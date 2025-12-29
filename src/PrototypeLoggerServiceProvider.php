@@ -11,6 +11,26 @@ class PrototypeLoggerServiceProvider extends ServiceProvider
         $this->publishes([
             __DIR__ . '/../config/prototype-logger.php' => config_path('prototype-logger.php'),
         ], 'prototype-logger');
+
+        $envPath = base_path('.env');
+        $defaults = [
+            'PROTOTYPE_LOG_PATH=' . storage_path('logs'),
+            'PROTOTYPE_LOG_FOLDER=prototype-logger',
+            'PROTOTYPE_LOG_PREFIX=logger',
+            'PROTOTYPE_LOG_EXTENSION=log',
+        ];
+
+        if (file_exists($envPath)) {
+            $envContent = file_get_contents($envPath);
+
+            foreach ($defaults as $line) {
+                $key = explode('=', $line)[0];
+
+                if (!str_contains($envContent, $key . '=')) {
+                    file_put_contents($envPath, PHP_EOL . $line, FILE_APPEND);
+                }
+            }
+        }
     }
 
     public function register(): void
